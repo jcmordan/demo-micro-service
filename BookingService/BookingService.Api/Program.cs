@@ -1,10 +1,27 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using BookingService.Api.Options;
+using BookingService.Core.Interfaces;
+using BookingService.Core.Services;
+using BookingService.Core.Options;
+using BookingService.Infrastructure.Data;
+using BookingService.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 // Options
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
@@ -24,6 +41,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
+    
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -35,6 +53,16 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+// DbContext
+builder.Services.AddDbContext<BookingDbContext>(options =>
+    options.UseInMemoryDatabase("BookingDb"));
+
+// Repositories
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
+// Services
+builder.Services.AddScoped<IBookingService, BookingService.Core.Services.BookingService>();
 
 // Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -64,6 +92,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -11,6 +11,18 @@ using UserService.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 // Options
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
@@ -82,6 +94,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
