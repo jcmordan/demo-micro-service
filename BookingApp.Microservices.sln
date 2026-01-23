@@ -27,9 +27,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingService.Core", "Book
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingService.Infrastructure", "BookingService\BookingService.Infrastructure\BookingService.Infrastructure.csproj", "{E34EB216-27DB-47F6-A9E6-589ADACC963D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomService.Infrastructure", "RoomService.Infrastructure\RoomService.Infrastructure.csproj", "{74EAE3F4-E875-4663-BD87-EA2675865D9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomService.Infrastructure", "RoomService\RoomService.Infrastructure\RoomService.Infrastructure.csproj", "{74EAE3F4-E875-4663-BD87-EA2675865D9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomService.Core", "RoomService.Core\RoomService.Core.csproj", "{78577FDD-8B42-4D8D-9C8F-AE225FCA44F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomService.Core", "RoomService\RoomService.Core\RoomService.Core.csproj", "{78577FDD-8B42-4D8D-9C8F-AE225FCA44F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
