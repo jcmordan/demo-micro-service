@@ -1,16 +1,25 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using BookingApp.Common.Options;
-
 using BookingApp.Common.Extensions;
+using BookingService.Core.Interfaces;
+using BookingService.Core.Services;
+using BookingService.Infrastructure.Data;
+using BookingService.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
 
+// Port Configuration
+builder.AddServiceUrl("BookingService");
+
 // Options
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<ServiceOptions>(builder.Configuration.GetSection("ServiceUrls"));
+
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
 
 // Add services to the container.
@@ -38,6 +47,20 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+// DbContext
+builder.Services.AddDbContext<BookingDbContext>(options =>
+    options.UseInMemoryDatabase("BookingDb"));
+
+// Repositories
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
+// Services
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<BookingApp.Common.Http.TokenPropagationHandler>();
+
+builder.Services.AddHttpClient<OrderBookingService>()
+    .AddHttpMessageHandler<BookingApp.Common.Http.TokenPropagationHandler>();
 
 // Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

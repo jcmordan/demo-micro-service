@@ -14,6 +14,9 @@ using BookingApp.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
 
+// Port Configuration
+builder.AddServiceUrl("RoomService");
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -46,6 +49,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Options
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<ServiceOptions>(builder.Configuration.GetSection("ServiceUrls"));
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
 
 // DbContext

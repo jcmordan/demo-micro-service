@@ -8,22 +8,31 @@
       "name": "RoomService.Api",
       "type": "coreclr",
       "request": "launch",
+      "preLaunchTask": "build",
       "program": "${workspaceFolder}/RoomService/RoomService.Api/bin/Debug/net9.0/RoomService.Api.dll",
       "args": [],
       "cwd": "${workspaceFolder}/RoomService/RoomService.Api",
-      "console": "internalConsole",
-      "preLaunchTask": "Build RoomService.Api"
+      "console": "internalConsole"
     },
     {
       "name": "UserService.Api",
       "type": "coreclr",
       "request": "launch",
+      "preLaunchTask": "build",
       "program": "${workspaceFolder}/UserService/UserService.Api/bin/Debug/net9.0/UserService.Api.dll",
       "args": [],
       "cwd": "${workspaceFolder}/UserService/UserService.Api",
-      "console": "internalConsole",
-      "preLaunchTask": "Build UserService.Api",
-      "launchWebBrowser": true
+      "console": "internalConsole"
+    },
+    {
+      "name": "BookingService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/BookingService/BookingService.Api/bin/Debug/net9.0/BookingService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/BookingService/BookingService.Api",
+      "console": "internalConsole"
     }
   ],
   "compounds": [
@@ -31,7 +40,8 @@
       "name": "Microservices",
       "configurations": [
         "RoomService.Api",
-        "UserService.Api"
+        "UserService.Api",
+        "BookingService.Api"
       ],
       "stopAll": true
     }

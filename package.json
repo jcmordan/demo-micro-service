@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start:room-service": "dotnet run --project RoomService/RoomService.Api/RoomService.Api.csproj",
-    "start:user-service": "dotnet run --project UserService/UserService.Api/UserService.Api.csproj"
+    "start:user-service": "dotnet run --project UserService/UserService.Api/UserService.Api.csproj",
+    "start:booking-service": "dotnet run --project BookingService/BookingService.Api/BookingService.Api.csproj"
   },
   "keywords": [],
   "author": "",

@@ -14,6 +14,9 @@ using BookingApp.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
 
+// Port Configuration
+builder.AddServiceUrl("UserService");
+
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -28,6 +31,7 @@ builder.Services.AddCors(options =>
 
 // Options
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<ServiceOptions>(builder.Configuration.GetSection("ServiceUrls"));
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
 
 // Add services to the container.
