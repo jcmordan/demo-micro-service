@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using NotificationService.Api.Options;
+using BookingApp.Common.Options;
+
+using BookingApp.Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddDotEnv();
 
 // Options
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));

@@ -5,11 +5,14 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using UserService.Core.Interfaces;
 using UserService.Core.Services;
-using UserService.Core.Options;
+using BookingApp.Common.Options;
 using UserService.Infrastructure.Data;
 using UserService.Infrastructure.Repositories;
 
+using BookingApp.Common.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddDotEnv();
 
 // CORS
 builder.Services.AddCors(options =>

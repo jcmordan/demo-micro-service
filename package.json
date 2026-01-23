@@ -1,0 +1,14 @@
+{
+  "name": "demo-micro-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:room-service": "dotnet run --project RoomService/RoomService.Api/RoomService.Api.csproj",
+    "start:user-service": "dotnet run --project UserService/UserService.Api/UserService.Api.csproj"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.3"
+}

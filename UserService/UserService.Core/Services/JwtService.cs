@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using UserService.Core.Entities;
 using UserService.Core.Interfaces;
-using UserService.Core.Options;
+using BookingApp.Common.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

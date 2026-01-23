@@ -1,0 +1,39 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "RoomService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/RoomService/RoomService.Api/bin/Debug/net9.0/RoomService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/RoomService/RoomService.Api",
+      "console": "internalConsole",
+      "preLaunchTask": "Build RoomService.Api"
+    },
+    {
+      "name": "UserService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/UserService/UserService.Api/bin/Debug/net9.0/UserService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/UserService/UserService.Api",
+      "console": "internalConsole",
+      "preLaunchTask": "Build UserService.Api",
+      "launchWebBrowser": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Microservices",
+      "configurations": [
+        "RoomService.Api",
+        "UserService.Api"
+      ],
+      "stopAll": true
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-namespace PaymentService.Api.Options;
+namespace BookingApp.Common.Options;
 
 public class JwtOptions
 {
