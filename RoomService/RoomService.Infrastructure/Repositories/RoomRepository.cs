@@ -1,4 +1,4 @@
-﻿using BookingApp.Core.Entities;
+﻿using RoomService.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using RoomService.Core.Interfaces;
 using RoomService.Infrastructure.Data;

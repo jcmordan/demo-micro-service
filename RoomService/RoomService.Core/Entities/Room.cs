@@ -1,4 +1,4 @@
-namespace BookingApp.Core.Entities;
+namespace RoomService.Core.Entities;
 
 public class Room
 {

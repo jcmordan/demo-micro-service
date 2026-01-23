@@ -1,4 +1,4 @@
-﻿using BookingApp.Core.Entities;
+﻿using RoomService.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

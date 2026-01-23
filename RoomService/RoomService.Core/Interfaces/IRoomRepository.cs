@@ -1,4 +1,4 @@
-﻿using BookingApp.Core.Entities;
+﻿using RoomService.Core.Entities;
 
 
 namespace RoomService.Core.Interfaces;
