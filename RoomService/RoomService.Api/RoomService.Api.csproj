@@ -13,4 +13,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\RoomService.Core\RoomService.Core.csproj" />
+    <ProjectReference Include="..\..\RoomService.Infrastructure\RoomService.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
