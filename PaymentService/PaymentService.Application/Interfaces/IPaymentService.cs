@@ -1,9 +1,12 @@
+using PaymentService.Application.Common;
 using PaymentService.Application.Dtos;
 
-namespace PaymentService.Application.Interfaces;
-
-public interface IPaymentService
+namespace PaymentService.Application.Interfaces
 {
-    Task<ServiceResult<PaymentDto>> AddPaymentAsync(AddPaymentDto addPaymentDto);
-    Task<IEnumerable<PaymentDto>> GetPaymentsAsync(string? status);
+    public interface IPaymentService
+    {
+        Task<ServiceResult<PaymentDto>> AddPaymentAsync(AddPaymentDto addPaymentDto);
+        Task<IEnumerable<PaymentDto>> GetPaymentsAsync(string? status);
+    }
 }
+
