@@ -4,6 +4,10 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using PaymentService.Api.Options;
 
+using PaymentService.Application.Interfaces;
+using PaymentService.Infrastructure.Repositories;
+using PaymentService.Infrastructure.Validators;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Options
@@ -53,6 +57,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+
+
+builder.Services.AddScoped<IBookingValidator, BookingValidator>();
+builder.Services.AddScoped<IPaymentService, PaymentService.Application.Services.PaymentService>();
+builder.Services.AddSingleton<IPaymentRepository, InMemoryPaymentRepository>();
 
 var app = builder.Build();
 
