@@ -10,8 +10,11 @@ using BookingService.Core.Services;
 using BookingService.Infrastructure.Data;
 using BookingService.Infrastructure.Repositories;
 
+using BookingApp.Common.Logging;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
+builder.AddCustomLogging("BookingService");
 
 // Port Configuration
 builder.AddServiceUrl("BookingService");
@@ -102,6 +105,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<TraceIdMiddleware>();
 
 app.UseCors("AllowAll");
 

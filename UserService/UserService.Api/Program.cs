@@ -10,9 +10,11 @@ using UserService.Infrastructure.Data;
 using UserService.Infrastructure.Repositories;
 
 using BookingApp.Common.Extensions;
+using BookingApp.Common.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
+builder.AddCustomLogging("UserService");
 
 // Port Configuration
 builder.AddServiceUrl("UserService");
@@ -101,6 +103,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<TraceIdMiddleware>();
 
 app.UseCors("AllowAll");
 

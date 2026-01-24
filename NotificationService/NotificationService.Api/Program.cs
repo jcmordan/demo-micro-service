@@ -5,9 +5,11 @@ using System.Text;
 using BookingApp.Common.Options;
 
 using BookingApp.Common.Extensions;
+using BookingApp.Common.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
+builder.AddCustomLogging("NotificationService");
 
 // Options
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
@@ -67,6 +69,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<TraceIdMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

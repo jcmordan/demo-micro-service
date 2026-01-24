@@ -12,8 +12,11 @@ using PaymentService.Core.Services;
 using PaymentService.Infrastructure.Data;
 using PaymentService.Infrastructure.Repositories;
 
+using BookingApp.Common.Logging;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
+builder.AddCustomLogging("PaymentService");
 
 // Port Configuration
 builder.AddServiceUrl("PaymentService");
@@ -90,6 +93,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<TraceIdMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

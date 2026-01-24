@@ -23,11 +23,25 @@ public class TokenPropagationHandler : DelegatingHandler
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var context = _httpContextAccessor.HttpContext;
-        if (context != null && context.Request.Headers.TryGetValue("Authorization", out var authHeader))
+        if (context != null)
         {
-            if (!request.Headers.Contains("Authorization"))
+            // Propagate Authorization header
+            if (context.Request.Headers.TryGetValue("Authorization", out var authHeader))
             {
-                request.Headers.Add("Authorization", authHeader.ToString());
+                if (!request.Headers.Contains("Authorization"))
+                {
+                    request.Headers.Add("Authorization", authHeader.ToString());
+                }
+            }
+
+            // Propagate TraceId header
+            if (context.Request.Headers.TryGetValue("X-Trace-Id", out var traceId))
+            {
+                request.Headers.Add("X-Trace-Id", traceId.ToString());
+            }
+            else if (context.Items.TryGetValue("TraceId", out var itemTraceId))
+            {
+                request.Headers.Add("X-Trace-Id", itemTraceId?.ToString());
             }
         }
 

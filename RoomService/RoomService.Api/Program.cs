@@ -10,9 +10,11 @@ using RoomService.Infrastructure.Data;
 using RoomService.Infrastructure.Repositories;
 
 using BookingApp.Common.Extensions;
+using BookingApp.Common.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
+builder.AddCustomLogging("RoomService");
 
 // Port Configuration
 builder.AddServiceUrl("RoomService");
@@ -106,6 +108,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<TraceIdMiddleware>();
 
 app.UseCors("AllowAll");
 

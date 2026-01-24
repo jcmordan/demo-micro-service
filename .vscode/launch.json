@@ -43,6 +43,16 @@
       "args": [],
       "cwd": "${workspaceFolder}/PaymentService/PaymentService.Api",
       "console": "internalConsole"
+    },
+    {
+      "name": "NotificationService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/NotificationService/NotificationService.Api/bin/Debug/net9.0/NotificationService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/NotificationService/NotificationService.Api",
+      "console": "internalConsole"
     }
   ],
   "compounds": [
@@ -52,7 +62,8 @@
         "RoomService.Api",
         "UserService.Api",
         "BookingService.Api",
-        "PaymentService.Api"
+        "PaymentService.Api",
+        "NotificationService.Api"
       ],
       "stopAll": true
     }

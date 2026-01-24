@@ -9,6 +9,8 @@ using BookingService.Core.Interfaces;
 using BookingApp.Common.Options;
 using Microsoft.Extensions.Options;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookingService.Core.Services;
 
 public class OrderBookingService
@@ -16,34 +18,41 @@ public class OrderBookingService
     private readonly IBookingRepository _bookingRepository;
     private readonly HttpClient _httpClient;
     private readonly ServiceOptions _serviceOptions;
+    private readonly ILogger<OrderBookingService> _logger;
 
     public OrderBookingService(
         IBookingRepository bookingRepository, 
         HttpClient httpClient, 
-        IOptions<ServiceOptions> serviceOptions)
+        IOptions<ServiceOptions> serviceOptions,
+        ILogger<OrderBookingService> logger)
     {
         _bookingRepository = bookingRepository;
         _httpClient = httpClient;
         _serviceOptions = serviceOptions.Value;
+        _logger = logger;
     }
 
     public async Task<BookingDto?> CreateBookingAsync(int userId, CreateBookingDto createDto)
     {
+        _logger.LogInformation("[CreateBookingAsync] Attempting to create booking for Room: {RoomId}, User: {UserId}", createDto.RoomId, userId);
+        
         // 1. Check if Room exists in RoomService via HTTP
         var roomServiceBaseUrl = _serviceOptions.ServiceUrls.GetValueOrDefault("RoomService", "http://localhost:5071");
         var roomServiceUrl = $"{roomServiceBaseUrl}/api/rooms/{createDto.RoomId}";
         
         try
         {
+            _logger.LogInformation("[CreateBookingAsync] Calling RoomService at: {Url}", roomServiceUrl);
             var roomResponse = await _httpClient.GetAsync(roomServiceUrl);
             if (!roomResponse.IsSuccessStatusCode)
             {
+                _logger.LogWarning("[CreateBookingAsync] Room not found or error from RoomService: {StatusCode}", roomResponse.StatusCode);
                 return null; // Room not found or error
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogError(ex, "[CreateBookingAsync] Error calling RoomService");
             return null; // Interface call failed
         }
 
@@ -55,6 +64,7 @@ public class OrderBookingService
             
         if (isOverlapping)
         {
+            _logger.LogWarning("[CreateBookingAsync] Overlapping booking detected for Room: {RoomId}", createDto.RoomId);
             return null; // Biz error: overlap
         }
 
@@ -68,6 +78,8 @@ public class OrderBookingService
         };
 
         await _bookingRepository.AddAsync(booking);
+
+        _logger.LogInformation("[CreateBookingAsync] Successfully created booking ID: {BookingId}", booking.Id);
 
         return new BookingDto(
             booking.Id, 
@@ -106,25 +118,32 @@ public class OrderBookingService
 
     public async Task<bool> CancelBookingAsync(int id, int userId)
     {
+        _logger.LogInformation("[CancelBookingAsync] Attempting to cancel booking ID: {BookingId} for User: {UserId}", id, userId);
+        
         var booking = await _bookingRepository.GetByIdAsync(id);
         
         if (booking == null || booking.UserId != userId || booking.IsCancelled)
         {
+            _logger.LogWarning("[CancelBookingAsync] Cancellation failed for booking ID: {BookingId}", id);
             return false;
         }
 
         booking.IsCancelled = true;
         await _bookingRepository.UpdateAsync(booking);
         
+        _logger.LogInformation("[CancelBookingAsync] Successfully cancelled booking ID: {BookingId}", id);
+        
         return true;
     }
 
     public async Task<BookingDto?> GetBookingByIdAsync(int id)
     {
+        _logger.LogInformation("[GetBookingByIdAsync] Retrieving booking ID: {BookingId}", id);
         var booking = await _bookingRepository.GetByIdAsync(id);
         
         if (booking == null)
         {
+            _logger.LogWarning("[GetBookingByIdAsync] Booking ID: {BookingId} not found", id);
             return null;
         }
 
