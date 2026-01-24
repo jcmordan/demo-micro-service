@@ -20,12 +20,13 @@ public class NotificationService : INotificationService
     {
         try
         {
-            _logger.LogInformation("Creating notification: Type={Type}, Message={Message}", createDto.Type, createDto.Message);
+            _logger.LogInformation("Creating notification: Type={Type}, Message={Message}, Receiver={Receiver}", createDto.Type, createDto.Message, createDto.Receiver);
 
             var notification = new Notification
             {
                 Message = createDto.Message,
                 Type = createDto.Type,
+                Receiver = createDto.Receiver,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -37,6 +38,7 @@ public class NotificationService : INotificationService
                 createdNotification.Id,
                 createdNotification.Message,
                 createdNotification.Type,
+                createdNotification.Receiver,
                 createdNotification.CreatedAt
             );
 
@@ -53,13 +55,13 @@ public class NotificationService : INotificationService
     {
         _logger.LogInformation("Retrieving all notifications");
         var notifications = await _notificationRepository.GetAllAsync();
-        return notifications.Select(n => new NotificationDto(n.Id, n.Message, n.Type, n.CreatedAt));
+        return notifications.Select(n => new NotificationDto(n.Id, n.Message, n.Type, n.Receiver, n.CreatedAt));
     }
 
     public async Task<NotificationDto?> GetNotificationByIdAsync(int id)
     {
         _logger.LogInformation("Retrieving notification: Id={Id}", id);
         var notification = await _notificationRepository.GetByIdAsync(id);
-        return notification == null ? null : new NotificationDto(notification.Id, notification.Message, notification.Type, notification.CreatedAt);
+        return notification == null ? null : new NotificationDto(notification.Id, notification.Message, notification.Type, notification.Receiver, notification.CreatedAt);
     }
 }

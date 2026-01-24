@@ -22,7 +22,7 @@ public class NotificationsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateNotification([FromBody] CreateNotificationDto createDto)
     {
-        _logger.LogInformation("POST /api/Notifications called with Type={Type}, Message={Message}", createDto.Type, createDto.Message);
+        _logger.LogInformation("POST /api/Notifications called with Type={Type}, Message={Message}, Receiver={Receiver}", createDto.Type, createDto.Message, createDto.Receiver);
 
         var result = await _notificationService.CreateNotificationAsync(createDto);
 

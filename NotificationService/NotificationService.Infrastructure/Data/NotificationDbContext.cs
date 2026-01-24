@@ -18,6 +18,7 @@ public class NotificationDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Message).IsRequired().HasMaxLength(1000);
             entity.Property(e => e.Type).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Receiver).IsRequired().HasMaxLength(255);
             entity.Property(e => e.CreatedAt).IsRequired();
         });
     }
