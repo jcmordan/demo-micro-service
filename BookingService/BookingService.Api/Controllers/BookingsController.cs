@@ -25,6 +25,19 @@ public class BookingsController : ControllerBase
         return Ok(bookings);
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<BookingDto>> GetById(int id)
+    {
+        var booking = await _bookingService.GetBookingByIdAsync(id);
+
+        if (booking == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(booking);
+    }
+
     [HttpGet("my-bookings")]
     public async Task<ActionResult<IEnumerable<BookingDto>>> GetMyBookings()
     {

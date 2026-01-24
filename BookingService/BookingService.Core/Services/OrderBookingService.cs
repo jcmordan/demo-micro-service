@@ -118,4 +118,22 @@ public class OrderBookingService
         
         return true;
     }
+
+    public async Task<BookingDto?> GetBookingByIdAsync(int id)
+    {
+        var booking = await _bookingRepository.GetByIdAsync(id);
+        
+        if (booking == null)
+        {
+            return null;
+        }
+
+        return new BookingDto(
+            booking.Id, 
+            booking.RoomId, 
+            booking.UserId, 
+            booking.CheckInDate, 
+            booking.CheckOutDate, 
+            booking.IsCancelled);
+    }
 }

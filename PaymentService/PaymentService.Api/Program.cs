@@ -5,15 +5,38 @@ using System.Text;
 using BookingApp.Common.Options;
 
 using BookingApp.Common.Extensions;
+using BookingApp.Common.Http;
+using Microsoft.EntityFrameworkCore;
+using PaymentService.Core.Interfaces;
+using PaymentService.Core.Services;
+using PaymentService.Infrastructure.Data;
+using PaymentService.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddDotEnv();
 
+// Port Configuration
+builder.AddServiceUrl("PaymentService");
+
 // Options
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<ServiceOptions>(builder.Configuration.GetSection("ServiceUrls"));
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
 
-// Add services to the container.
+// DbContext
+builder.Services.AddDbContext<PaymentDbContext>(options =>
+    options.UseInMemoryDatabase("PaymentDb"));
+
+// Repositories
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+// Services
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<TokenPropagationHandler>();
+
+builder.Services.AddHttpClient<PaymentsService>()
+    .AddHttpMessageHandler<TokenPropagationHandler>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

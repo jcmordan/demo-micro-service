@@ -33,6 +33,16 @@
       "args": [],
       "cwd": "${workspaceFolder}/BookingService/BookingService.Api",
       "console": "internalConsole"
+    },
+    {
+      "name": "PaymentService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/PaymentService/PaymentService.Api/bin/Debug/net9.0/PaymentService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/PaymentService/PaymentService.Api",
+      "console": "internalConsole"
     }
   ],
   "compounds": [
@@ -41,7 +51,8 @@
       "configurations": [
         "RoomService.Api",
         "UserService.Api",
-        "BookingService.Api"
+        "BookingService.Api",
+        "PaymentService.Api"
       ],
       "stopAll": true
     }

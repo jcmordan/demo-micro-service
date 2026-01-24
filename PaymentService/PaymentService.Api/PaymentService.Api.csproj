@@ -9,11 +9,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\BookingApp.Common\BookingApp.Common.csproj" />
+    <ProjectReference Include="..\PaymentService.Core\PaymentService.Core.csproj" />
+    <ProjectReference Include="..\PaymentService.Infrastructure\PaymentService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
