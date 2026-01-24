@@ -1,8 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using NotificationService.Api.Options;
+using NotificationService.Core.Interfaces;
+using NotificationService.Core.Services;
+using NotificationService.Infrastructure.Data;
+using NotificationService.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +41,16 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// DbContext
+builder.Services.AddDbContext<NotificationDbContext>(options =>
+    options.UseInMemoryDatabase("NotificationDb"));
+
+// Repositories
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+// Services
+builder.Services.AddScoped<INotificationService, NotificationService.Core.Services.NotificationService>();
+
 // Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -63,11 +78,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
